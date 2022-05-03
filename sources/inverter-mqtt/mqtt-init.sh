@@ -19,7 +19,7 @@ registerTopic () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -i ""$MQTT_DEVICENAME"_"$MQTT_SERIAL"" \
+        -i ""$MQTT_DEVICENAME""$MQTT_SERIAL"" \
         -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/config" \
         -r \
         -m "{
@@ -38,7 +38,7 @@ registerEnergyTopic () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -i ""$MQTT_DEVICENAME"_"$MQTT_SERIAL"" \
+        -i ""$MQTT_DEVICENAME""$MQTT_SERIAL"" \
         -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/LastReset" \
 		-r \
         -m "1970-01-01T00:00:00+00:00"
@@ -48,7 +48,7 @@ registerEnergyTopic () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -i ""$MQTT_DEVICENAME"_"$MQTT_SERIAL"" \
+        -i ""$MQTT_DEVICENAME""$MQTT_SERIAL"" \
         -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/config" \
         -r \
         -m "{
@@ -68,7 +68,7 @@ registerModeTopic () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -i ""$MQTT_DEVICENAME"_"$MQTT_SERIAL"" \
+        -i ""$MQTT_DEVICENAME""$MQTT_SERIAL"" \
         -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/config" \
         -r \
         -m "{
@@ -85,7 +85,7 @@ registerInverterRawCMD () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -i ""$MQTT_DEVICENAME"_"$MQTT_SERIAL"" \
+        -i ""$MQTT_DEVICENAME""$MQTT_SERIAL"" \
         -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/COMMANDS/config" \
         -r \
         -m "{
