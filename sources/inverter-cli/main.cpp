@@ -89,8 +89,8 @@ void getSettingsFile(string filename) {
                     attemptAddSetting(&ampfactor, linepart2);
                 else if(linepart1 == "watt_factor")
                     attemptAddSetting(&wattfactor, linepart2);
-                else if(linepart1 == "watt_factor")
-                    attemptAddSetting(&wattfactor, linepart2);
+//                else if(linepart1 == "watt_factor")
+//                    attemptAddSetting(&wattfactor, linepart2);
                 else if(linepart1 == "qpiri")
                     attemptAddSetting(&qpiri, linepart2);
                 else if(linepart1 == "qpiws")
@@ -132,6 +132,9 @@ int main(int argc, char* argv[]) {
     float scc_voltage;
     int batt_discharge_current;
     char device_status[9];
+    int batt_volt_fans;
+    int eeprom_ver;
+    char device_status2[4];
 
     // Reply2
     float grid_voltage_rating;
@@ -216,7 +219,7 @@ int main(int argc, char* argv[]) {
             if (reply1 && reply2 && warnings) {
 
                 // Parse and display values
-                sscanf(reply1->c_str(), "%f %f %f %f %d %d %d %d %f %d %d %d %f %f %f %d %s", &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status);
+                sscanf(reply1->c_str(), "%f %f %f %f %d %d %d %d %f %d %d %d %f %f %f %d %s %d %d %f %s", &voltage_grid, &freq_grid, &voltage_out, &freq_out, &load_va, &load_watt, &load_percent, &voltage_bus, &voltage_batt, &batt_charge_current, &batt_capacity, &temp_heatsink, &pv_input_current, &pv_input_voltage, &scc_voltage, &batt_discharge_current, &device_status, &batt_volt_fans, &eeprom_ver, &pv_input_watts, &device_status2);
                 sscanf(reply2->c_str(), "%f %f %f %f %f %d %d %f %f %f %f %f %d %d %d %d %d %d - %d %d %d %f", &grid_voltage_rating, &grid_current_rating, &out_voltage_rating, &out_freq_rating, &out_current_rating, &out_va_rating, &out_watt_rating, &batt_rating, &batt_recharge_voltage, &batt_under_voltage, &batt_bulk_voltage, &batt_float_voltage, &batt_type, &max_grid_charge_current, &max_charge_current, &in_voltage_range, &out_source_priority, &charger_source_priority, &machine_type, &topology, &out_mode, &batt_redischarge_voltage);
 
                 // There appears to be a discrepancy in actual DMM measured current vs what the meter is
@@ -233,7 +236,7 @@ int main(int argc, char* argv[]) {
                 // current that is going out to the battery at battery voltage (NOT at PV voltage).  This
                 // would explain the larger discrepancy we saw before.
 
-                pv_input_watts = (scc_voltage * pv_input_current) * wattfactor;
+                // Not needed as VMII outputs PV_watts pv_input_watts = (scc_voltage * pv_input_current) * wattfactor;
 
                 // Calculate watt-hours generated per run interval period (given as program argument)
                 pv_input_watthour = pv_input_watts / (3600 / runinterval);
@@ -265,6 +268,7 @@ int main(int argc, char* argv[]) {
                 printf("  \"Load_status_on\":%c,\n", device_status[3]);
                 printf("  \"SCC_charge_on\":%c,\n", device_status[6]);
                 printf("  \"AC_charge_on\":%c,\n", device_status[7]);
+                printf("  \"Battery_float_charging_on\":%c,\n", device_status2[0]);
                 printf("  \"Battery_recharge_voltage\":%.1f,\n", batt_recharge_voltage);
                 printf("  \"Battery_under_voltage\":%.1f,\n", batt_under_voltage);
                 printf("  \"Battery_bulk_voltage\":%.1f,\n", batt_bulk_voltage);
